@@ -3,10 +3,10 @@
 ![image](https://avatars3.githubusercontent.com/u/31015318?s=460&v=4)
 
 #### Master Build Status
-[![Build Status](https://travis-ci.org/turtlecoin/turtlecoin.svg?branch=master)](https://travis-ci.org/turtlecoin/turtlecoin) [![Build status](https://ci.appveyor.com/api/projects/status/github/turtlecoin/turtlecoin?branch=master&svg=true)](https://ci.appveyor.com/project/RocksteadyTC/turtlecoin)
+[![Build Status](https://travis-ci.org/unibitx/unibitx.svg?branch=master)](https://travis-ci.org/unibitx/unibitx) [![Build status](https://ci.appveyor.com/api/projects/status/github/unibitx/unibitx?branch=master&svg=true)](https://ci.appveyor.com/project/RocksteadyTC/unibitx)
 
 #### Development Build Status
-[![Build Status](https://travis-ci.org/turtlecoin/turtlecoin.svg?branch=development)](https://travis-ci.org/turtlecoin/turtlecoin) [![Build status](https://ci.appveyor.com/api/projects/status/github/turtlecoin/turtlecoin?branch=development&svg=true)](https://ci.appveyor.com/project/RocksteadyTC/turtlecoin)
+[![Build Status](https://travis-ci.org/unibitx/unibitx.svg?branch=development)](https://travis-ci.org/unibitx/unibitx) [![Build status](https://ci.appveyor.com/api/projects/status/github/unibitx/unibitx?branch=development&svg=true)](https://ci.appveyor.com/project/RocksteadyTC/unibitx)
 
 ### Installing
 
@@ -192,7 +192,7 @@ The binaries will be in the `src/Release` folder when you are complete.
 - `UniBitXd.exe --version`
 
 #### Thanks
-Cryptonote Developers, Bytecoin Developers, Monero Developers, Forknote Project, TurtleCoin Community
+Cryptonote Developers, Bytecoin Developers, Monero Developers, Forknote Project, UniBitX Community
 
 ### Copypasta for license when editing files
 
@@ -201,7 +201,7 @@ Hi UniBitX contributor, thanks for forking and sending back Pull Requests. Exten
 ```
 // Copyright (c) 2012-2017, The CryptoNote developers, The Bytecoin developers
 // Copyright (c) 2014-2018, The Monero Project
-// Copyright (c) 2018-2019, The TurtleCoin Developers
+// Copyright (c) 2018-2019, The UniBitX Developers
 // Copyright (c) 2018-2019, The Universal Bit Project
 //
 // Please see the included LICENSE file for more information.

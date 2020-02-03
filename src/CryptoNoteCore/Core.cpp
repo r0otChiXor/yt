@@ -1,7 +1,7 @@
 // Copyright (c) 2012-2017, The CryptoNote developers, The Bytecoin developers
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c) 2018-2019, The Galaxia Project Developers
-// Copyright (c) 2018-2019, The TurtleCoin Developers
+// Copyright (c) 2018-2019, The UniBitX Developers
 //
 // Please see the included LICENSE file for more information.
 
@@ -1020,7 +1020,7 @@ std::error_code Core::addBlock(const CachedBlock& cachedBlock, RawBlock&& rawBlo
   }
 
   // Copyright (c) 2018-2019, The Galaxia Project Developers
-  // See https://github.com/turtlecoin/turtlecoin/issues/748 for more information
+  // See https://github.com/unibitx/unibitx/issues/748 for more information
   if (blockIndex >= CryptoNote::parameters::BLOCK_BLOB_SHUFFLE_CHECK_HEIGHT)
   {
     /* Check to verify that the blocktemplate suppied contains no duplicate transaction hashes */

@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The TurtleCoin Developers
+// Copyright (c) 2018, The UniBitX Developers
 // 
 // Please see the included LICENSE file for more information.
 
@@ -116,7 +116,7 @@ void balance(CryptoNote::INode &node, CryptoNote::WalletGreen &wallet,
 
     /* We can make a better approximation of the view wallet balance if we
        ignore fusion transactions.
-       See https://github.com/turtlecoin/turtlecoin/issues/531 */
+       See https://github.com/unibitx/unibitx/issues/531 */
     if (viewWallet)
     {
         /* Not sure how to verify if a transaction is unlocked or not via

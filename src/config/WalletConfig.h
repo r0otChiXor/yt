@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The TurtleCoin Developers
+// Copyright (c) 2018, The UniBitX Developers
 // Copyright (c) 2020, The Universal Bit Project
 // 
 // Please see the included LICENSE file for more information.

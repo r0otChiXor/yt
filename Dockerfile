@@ -1,7 +1,7 @@
 # daemon runs in the background
 # run something like tail /var/log/unibitxd/current to see the status
 # be sure to run with volumes, ie:
-# docker run -v $(pwd)/unibitxd:/var/lib/unibitxd -v $(pwd)/wallet:/home/turtlecoin --rm -ti turtlecoin:0.2.2
+# docker run -v $(pwd)/unibitxd:/var/lib/unibitxd -v $(pwd)/wallet:/home/unibitx --rm -ti unibitx:0.2.2
 ARG base_image_version=0.10.0
 FROM phusion/baseimage:$base_image_version
 
@@ -11,8 +11,8 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 ADD https://github.com/just-containers/socklog-overlay/releases/download/v2.1.0-0/socklog-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C /
 
-ARG TURTLECOIN_BRANCH=master
-ENV TURTLECOIN_BRANCH=${TURTLECOIN_BRANCH}
+ARG UNIBITX_BRANCH=master
+ENV UNIBITX_BRANCH=${UNIBITX_BRANCH}
 
 # install build dependencies
 # checkout the latest tag
@@ -25,9 +25,9 @@ RUN apt-get update && \
       g++-4.9 \
       git cmake \
       libboost1.58-all-dev && \
-    git clone https://github.com/turtlecoin/turtlecoin.git /src/turtlecoin && \
-    cd /src/turtlecoin && \
-    git checkout $TURTLECOIN_BRANCH && \
+    git clone https://github.com/unibitx/unibitx.git /src/unibitx && \
+    cd /src/unibitx && \
+    git checkout $UNIBITX_BRANCH && \
     mkdir build && \
     cd build && \
     cmake -DCMAKE_CXX_FLAGS="-g0 -Os -fPIC -std=gnu++11" .. && \
@@ -42,7 +42,7 @@ RUN apt-get update && \
     strip /usr/local/bin/zedwallet && \
     strip /usr/local/bin/miner && \
     cd / && \
-    rm -rf /src/turtlecoin && \
+    rm -rf /src/unibitx && \
     apt-get remove -y build-essential python-dev gcc-4.9 g++-4.9 git cmake libboost1.58-all-dev && \
     apt-get autoremove -y && \
     apt-get install -y  \
@@ -58,7 +58,7 @@ RUN apt-get update && \
 
 # setup the unibitxd service
 RUN useradd -r -s /usr/sbin/nologin -m -d /var/lib/unibitxd unibitxd && \
-    useradd -s /bin/bash -m -d /home/turtlecoin turtlecoin && \
+    useradd -s /bin/bash -m -d /home/unibitx unibitx && \
     mkdir -p /etc/services.d/unibitxd/log && \
     mkdir -p /var/log/unibitxd && \
     echo "#!/usr/bin/execlineb" > /etc/services.d/unibitxd/run && \
@@ -73,10 +73,10 @@ RUN useradd -r -s /usr/sbin/nologin -m -d /var/lib/unibitxd unibitxd && \
     echo "s6-log -bp -- n20 s1000000 /var/log/unibitxd" >> /etc/services.d/unibitxd/log/run && \
     chmod +x /etc/services.d/unibitxd/log/run && \
     echo "/var/lib/unibitxd true unibitxd 0644 0755" > /etc/fix-attrs.d/unibitxd-home && \
-    echo "/home/turtlecoin true turtlecoin 0644 0755" > /etc/fix-attrs.d/turtlecoin-home && \
+    echo "/home/unibitx true unibitx 0644 0755" > /etc/fix-attrs.d/unibitx-home && \
     echo "/var/log/unibitxd true nobody 0644 0755" > /etc/fix-attrs.d/unibitxd-logs
 
-VOLUME ["/var/lib/unibitxd", "/home/turtlecoin","/var/log/unibitxd"]
+VOLUME ["/var/lib/unibitxd", "/home/unibitx","/var/log/unibitxd"]
 
 ENTRYPOINT ["/init"]
-CMD ["/usr/bin/execlineb", "-P", "-c", "emptyenv cd /home/turtlecoin export HOME /home/turtlecoin s6-setuidgid turtlecoin /bin/bash"]
+CMD ["/usr/bin/execlineb", "-P", "-c", "emptyenv cd /home/unibitx export HOME /home/unibitx s6-setuidgid unibitx /bin/bash"]
