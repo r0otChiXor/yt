@@ -35,7 +35,7 @@ file(GLOB_RECURSE Rpc Rpc/*)
 file(GLOB_RECURSE Serialization Serialization/*)
 file(GLOB_RECURSE SubWallets SubWallets/*)
 file(GLOB_RECURSE Transfers Transfers/*)
-file(GLOB_RECURSE TurtleCoind Daemon/*)
+file(GLOB_RECURSE UniBitXd Daemon/*)
 file(GLOB_RECURSE Utilities Utilities/*)
 file(GLOB_RECURSE Wallet Wallet/*)
 file(GLOB_RECURSE WalletApi WalletApi/*)
@@ -53,7 +53,7 @@ else()
 endif()
 
 # Group the files together in IDEs
-source_group("" FILES $${Common} ${Crypto} ${CryptoNoteCore} ${CryptoNoteProtocol} ${TurtleCoind} ${JsonRpcServer} ${Http} ${Logging} ${Logger} ${miner} ${Mnemonics} ${Nigel} ${NodeRpcProxy} ${P2p} ${Rpc} ${Serialization} ${System} ${Transfers} ${Wallet} ${WalletApi} ${WalletBackend} ${WalletService} ${zedwallet} ${zedwallet++} ${CryptoTest} ${Errors} ${Utilities} ${SubWallets})
+source_group("" FILES $${Common} ${Crypto} ${CryptoNoteCore} ${CryptoNoteProtocol} ${UniBitXd} ${JsonRpcServer} ${Http} ${Logging} ${Logger} ${miner} ${Mnemonics} ${Nigel} ${NodeRpcProxy} ${P2p} ${Rpc} ${Serialization} ${System} ${Transfers} ${Wallet} ${WalletApi} ${WalletBackend} ${WalletService} ${zedwallet} ${zedwallet++} ${CryptoTest} ${Errors} ${Utilities} ${SubWallets})
 
 # Define a group of files as a library to link against
 add_library(BlockchainExplorer STATIC ${BlockchainExplorer})
@@ -102,14 +102,14 @@ endif()
 add_executable(cryptotest ${CryptoTest} ${CT_SOURCES_OS})
 add_executable(miner ${miner} ${MINER_SOURCES_OS})
 add_executable(WalletService ${WalletService} ${PG_SOURCES_OS})
-add_executable(TurtleCoind ${TurtleCoind} ${DAEMON_SOURCES_OS})
+add_executable(UniBitXd ${UniBitXd} ${DAEMON_SOURCES_OS})
 add_executable(WalletApi ${WalletApi} ${WALLET_API_SOURCES_OS})
 add_executable(zedwallet ${zedwallet} ${ZED_WALLET_SOURCES_OS})
 add_executable(zedwallet++ ${zedwallet++} ${ZED_WALLET_SOURCES_OS})
 
 if(MSVC)
     target_link_libraries(System ws2_32)
-    target_link_libraries(TurtleCoind Rpcrt4)
+    target_link_libraries(UniBitXd Rpcrt4)
     target_link_libraries(WalletService Rpcrt4)
     target_link_libraries(zedwallet++ ws2_32 advapi32 crypt32 gdi32 user32)
     target_link_libraries(WalletApi ws2_32 advapi32 crypt32 gdi32 user32)
@@ -128,9 +128,9 @@ elseif (UNIX)
 endif()
 
 if(MSVC)
-    target_link_libraries(TurtleCoind System CryptoNoteCore rocksdb lz4 sqlite3 Errors ${Boost_LIBRARIES})
+    target_link_libraries(UniBitXd System CryptoNoteCore rocksdb lz4 sqlite3 Errors ${Boost_LIBRARIES})
 else()
-    target_link_libraries(TurtleCoind System CryptoNoteCore rocksdblib lz4 sqlite3 Errors ${Boost_LIBRARIES})
+    target_link_libraries(UniBitXd System CryptoNoteCore rocksdblib lz4 sqlite3 Errors ${Boost_LIBRARIES})
 endif()
 
 # Add the dependencies we need
@@ -170,13 +170,13 @@ add_dependencies(miner version)
 add_dependencies(JsonRpcServer version)
 add_dependencies(P2P version)
 add_dependencies(Rpc version)
-add_dependencies(TurtleCoind version)
+add_dependencies(UniBitXd version)
 add_dependencies(WalletApi version)
 add_dependencies(WalletService version)
 add_dependencies(zedwallet version)
 
 # Finally build the binaries
-set_property(TARGET TurtleCoind PROPERTY OUTPUT_NAME "UniBitXd")
+set_property(TARGET UniBitXd PROPERTY OUTPUT_NAME "UniBitXd")
 set_property(TARGET zedwallet PROPERTY OUTPUT_NAME "uniwallet")
 set_property(TARGET zedwallet++ PROPERTY OUTPUT_NAME "uniwallet-beta")
 set_property(TARGET WalletService PROPERTY OUTPUT_NAME "unibitx-service")
@@ -185,7 +185,7 @@ set_property(TARGET cryptotest PROPERTY OUTPUT_NAME "cryptotest")
 set_property(TARGET WalletApi PROPERTY OUTPUT_NAME "wallet-api")
 
 # Additional make targets, can be used to build a subset of the targets
-# e.g. make pool will build only TurtleCoind and service
+# e.g. make pool will build only UniBitXd and service
 add_custom_target(pool DEPENDS UniBitXd WalletService)
 add_custom_target(solominer DEPENDS UniBitXd uniwallet miner)
 add_custom_target(cli DEPENDS UniBitXd uniwallet)

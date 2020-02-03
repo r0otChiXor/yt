@@ -4,9 +4,9 @@
 # Useless for mainnet, but used to setup a testnet with checkpoints, and not have to spend days mining to get to the next block!
 #
 # daemon runs in the background
-# run something like tail /var/log/turtlecoind/current to see the status
+# run something like tail /var/log/unibitxd/current to see the status
 # be sure to run with volumes, ie:
-# docker run -v $(pwd)/turtlecoind:/var/lib/turtlecoind -v $(pwd)/wallet:/home/turtlecoin --rm -ti turtlecoin:0.2.2
+# docker run -v $(pwd)/unibitxd:/var/lib/unibitxd -v $(pwd)/wallet:/home/turtlecoin --rm -ti turtlecoin:0.2.2
 ARG base_image_version=0.10.0
 FROM phusion/baseimage:$base_image_version
 
@@ -56,11 +56,11 @@ RUN apt-get update && \
     cmake -DCMAKE_CXX_FLAGS="-g0 -Os -fPIC -std=gnu++11" .. && \
     make -j$(nproc) && \
     mkdir -p /usr/local/bin && \
-    cp src/TurtleCoind /usr/local/bin/TurtleCoind && \
+    cp src/UniBitXd /usr/local/bin/UniBitXd && \
     cp src/walletd /usr/local/bin/walletd && \
     cp src/zedwallet /usr/local/bin/zedwallet && \
     cp src/miner /usr/local/bin/miner && \
-    strip /usr/local/bin/TurtleCoind && \
+    strip /usr/local/bin/UniBitXd && \
     strip /usr/local/bin/walletd && \
     strip /usr/local/bin/zedwallet && \
     strip /usr/local/bin/miner && \
@@ -79,29 +79,29 @@ RUN apt-get update && \
       libboost-program-options1.58.0 \
       libicu55
 
-# setup the turtlecoind service
-RUN useradd -r -s /usr/sbin/nologin -m -d /var/lib/turtlecoind turtlecoind && \
+# setup the unibitxd service
+RUN useradd -r -s /usr/sbin/nologin -m -d /var/lib/unibitxd unibitxd && \
     useradd -s /bin/bash -m -d /home/turtlecoin turtlecoin && \
-    mkdir -p /etc/services.d/turtlecoind/log && \
-    mkdir -p /var/log/turtlecoind && \
-    echo "#!/usr/bin/execlineb" > /etc/services.d/turtlecoind/run && \
-    echo "fdmove -c 2 1" >> /etc/services.d/turtlecoind/run && \
-    echo "cd /var/lib/turtlecoind" >> /etc/services.d/turtlecoind/run && \
-    echo "export HOME /var/lib/turtlecoind" >> /etc/services.d/turtlecoind/run && \
-    echo "s6-setuidgid turtlecoind /usr/local/bin/TurtleCoind --log-level=2" >> /etc/services.d/turtlecoind/run && \
-    chmod +x /etc/services.d/turtlecoind/run && \
+    mkdir -p /etc/services.d/unibitxd/log && \
+    mkdir -p /var/log/unibitxd && \
+    echo "#!/usr/bin/execlineb" > /etc/services.d/unibitxd/run && \
+    echo "fdmove -c 2 1" >> /etc/services.d/unibitxd/run && \
+    echo "cd /var/lib/unibitxd" >> /etc/services.d/unibitxd/run && \
+    echo "export HOME /var/lib/unibitxd" >> /etc/services.d/unibitxd/run && \
+    echo "s6-setuidgid unibitxd /usr/local/bin/UniBitXd --log-level=2" >> /etc/services.d/unibitxd/run && \
+    chmod +x /etc/services.d/unibitxd/run && \
     chmod +x /tmp/wait-for-it.sh && \
-    chown nobody:nogroup /var/log/turtlecoind && \
-    echo "#!/usr/bin/execlineb" > /etc/services.d/turtlecoind/log/run && \
-    echo "s6-setuidgid nobody" >> /etc/services.d/turtlecoind/log/run && \
-    echo "s6-log -bp -- n20 s1000000 /var/log/turtlecoind" >> /etc/services.d/turtlecoind/log/run && \
-    chmod +x /etc/services.d/turtlecoind/log/run && \
-    echo "/var/lib/turtlecoind true turtlecoind 0644 0755" > /etc/fix-attrs.d/turtlecoind-home && \
+    chown nobody:nogroup /var/log/unibitxd && \
+    echo "#!/usr/bin/execlineb" > /etc/services.d/unibitxd/log/run && \
+    echo "s6-setuidgid nobody" >> /etc/services.d/unibitxd/log/run && \
+    echo "s6-log -bp -- n20 s1000000 /var/log/unibitxd" >> /etc/services.d/unibitxd/log/run && \
+    chmod +x /etc/services.d/unibitxd/log/run && \
+    echo "/var/lib/unibitxd true unibitxd 0644 0755" > /etc/fix-attrs.d/unibitxd-home && \
     echo "/home/turtlecoin true turtlecoin 0644 0755" > /etc/fix-attrs.d/turtlecoin-home && \
     echo "/tmp/checkpoints.csv true turtlecoin 0644 0755" > /etc/fix-attrs.d/turtlecoin-checkpoints && \
-    echo "/var/log/turtlecoind true nobody 0644 0755" > /etc/fix-attrs.d/turtlecoind-logs
+    echo "/var/log/unibitxd true nobody 0644 0755" > /etc/fix-attrs.d/unibitxd-logs
 
-VOLUME ["/var/lib/turtlecoind", "/home/turtlecoin","/var/log/turtlecoind"]
+VOLUME ["/var/lib/unibitxd", "/home/turtlecoin","/var/log/unibitxd"]
 
 ENTRYPOINT ["/init"]
-CMD ["/usr/bin/execlineb", "-P", "-c", "emptyenv cd /home/turtlecoin export HOME /home/turtlecoin s6-setuidgid turtlecoin tail -f /var/log/turtlecoind/current"]
+CMD ["/usr/bin/execlineb", "-P", "-c", "emptyenv cd /home/turtlecoin export HOME /home/turtlecoin s6-setuidgid turtlecoin tail -f /var/log/unibitxd/current"]
